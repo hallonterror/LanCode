@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -58,10 +59,16 @@ namespace LanMonitor
             addGameWindow.ShowDialog();
             if (addGameWindow.DialogResult == true)
             {
-                using (var sw = new System.IO.StreamWriter("config/new_games.xml", true))
-                {
-                    sw.WriteLine(addGameWindow.GameName + "," + addGameWindow.GameLink + "," + addGameWindow.GameProcess);
-                }
+                string fpath = "config/monitored_games.xml";
+                XDocument doc = XDocument.Load(fpath);
+
+                XElement newGame = new XElement("game");
+                newGame.Add(new XElement("title", addGameWindow.GameName));
+                newGame.Add(new XElement("web", addGameWindow.GameLink));
+                newGame.Add(new XElement("process", addGameWindow.GameProcess));
+                newGame.Add(new XElement("local", true));
+                doc.Element("games").Add(newGame);
+                doc.Save(fpath);
 
                 procMon.MonitoredProceses.Add(
                     addGameWindow.GameProcess,
