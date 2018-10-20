@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,22 +43,13 @@ namespace LanMonitor
         {
             // Load monitored games
             MonitoredProceses = new Dictionary<string, GameInfo>();
-            using (var gameReader = new System.IO.StreamReader("config/monitored_games.xml"))
+            var doc = XDocument.Load("config/monitored_games.xml");
+            foreach (XElement game in doc.Element("games").Elements())
             {
-                var doc = new System.Xml.XmlDocument();
-                doc.Load(gameReader);
-                foreach (System.Xml.XmlNode game in doc.LastChild.ChildNodes)
-                {
-                    String title = "", web = "", process = "";
-                    foreach(System.Xml.XmlNode tag in game)
-                    {
-                        if (tag.Name.Equals("title")) { title = tag.InnerText; }
-                        else if (tag.Name.Equals("web")) { web = tag.InnerText; }
-                        else if (tag.Name.Equals("process")) { process = tag.InnerText; }
-                    }
-                    if (process != "" && web != "" && title != "")
-                        MonitoredProceses[process] = new GameInfo(title, web, process);
-                }
+                string title = game.Element("title").Value;
+                string web = game.Element("web").Value;
+                string process = game.Element("process").Value;
+                MonitoredProceses[process] = new GameInfo(title, web, process);
             }
 
             // Load ignored processes (not games)
