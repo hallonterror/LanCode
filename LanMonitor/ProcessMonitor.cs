@@ -5,15 +5,24 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+//using System.Collections.Specialized;
 
 namespace LanMonitor
 {
     class GameInfo
     {
+        public GameInfo(string name, string adress, string process)
+        {
+            Title = name;
+            Web = adress;
+            Process = process;
+        }
+
         public string Title { get; set; }
         public string Web{ get; set; }
+        public string Process{ get; set; }
         public TimeSpan Runtime { get; set; }
         public string RuntimeString
         {
@@ -21,22 +30,13 @@ namespace LanMonitor
                 return Runtime.ToString(@"hh\:mm\:ss");
             }
         }
-        public GameInfo(string name, string adress)
-        {
-            Title = name;
-            Web = adress;
-        }
     }
 
-    class ProcessMonitor : INotifyCollectionChanged
+    class ProcessMonitor : INotifyPropertyChanged
     {
+        // Configuration variables
         private Dictionary<String, GameInfo> monitoredProceses = new Dictionary<String, GameInfo>();
         private HashSet<String> ignoredProcesses = new HashSet<String>();
-
-        Dictionary<String, GameInfo> runningGames = new Dictionary<string, GameInfo>();
-        HashSet<String> potentialGames = new HashSet<string>();
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public ProcessMonitor()
         {
@@ -55,7 +55,7 @@ namespace LanMonitor
                         else if (tag.Name.Equals("process")) { process = tag.InnerText; }
                     }
                     if (process != "" && web != "" && title != "")
-                        monitoredProceses[process] = new GameInfo(title, web);
+                        monitoredProceses[process] = new GameInfo(title, web, process);
                 }
             }
 
@@ -69,50 +69,50 @@ namespace LanMonitor
                 }
             }
 
+#pragma warning disable 4014
             // Auto update at regular intervals
             var dueTime = TimeSpan.FromSeconds(10);
             var interval = TimeSpan.FromSeconds(30);
             RunPeriodicAsync(UpdateProcesses, dueTime, interval, CancellationToken.None);
+#pragma warning restore 4014
         }
 
         public void UpdateProcesses()
         {
             Process[] processes = Process.GetProcesses();
 
-            runningGames.Clear();
-            potentialGames.Clear();
+            Dictionary<string, GameInfo> games = new Dictionary<string, GameInfo>();
+            HashSet<string> unknowns = new HashSet<string>();
+
             foreach (Process proc in processes)
             {
                 if (monitoredProceses.ContainsKey(proc.ProcessName))
                 {
                     var game = monitoredProceses[proc.ProcessName];
                     game.Runtime = DateTime.Now - proc.StartTime;
-                    runningGames[proc.ProcessName] = game;
+                    games[proc.ProcessName] = game;
                 }
                 else if (!ignoredProcesses.Contains(proc.ProcessName))
                 {
-                    potentialGames.Add(proc.ProcessName);
+                    unknowns.Add(proc.ProcessName);
                 }
             }
 
-            CollectionChanged(this, )
-        }
-
-        public List<string> UnknownProcesses
-        {
-            get
+            // Update observables
+            RunningGames.Clear();
+            UnknownProcesses.Clear();
+            foreach(KeyValuePair<string, GameInfo> game in games)
             {
-                return potentialGames.ToList();
+                RunningGames.Add(game.Value);
+            }
+            foreach(string proc in unknowns)
+            {
+                UnknownProcesses.Add(proc);
             }
         }
 
-        public Dictionary<string, GameInfo> RunningGames
-        {
-            get
-            {
-                return runningGames;
-            }
-        }
+        public ObservableCollection<GameInfo> RunningGames { get; } = new ObservableCollection<GameInfo>();
+        public ObservableCollection<string> UnknownProcesses { get; } = new ObservableCollection<string>();
 
         private static async Task RunPeriodicAsync(Action onTick,
                                            TimeSpan dueTime,
@@ -135,6 +135,14 @@ namespace LanMonitor
             }
         }
 
-
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
