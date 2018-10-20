@@ -38,5 +38,10 @@ namespace LanMonitor
                 Console.WriteLine(name);
             }
         }
+
+        private void RefreshManual(object sender, RoutedEventArgs e)
+        {
+            procMon.UpdateProcesses();
+        }
     }
 }

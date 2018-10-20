@@ -11,6 +11,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
         <ListBox x:Name="game_list" Grid.Row="0" 
                  ItemsSource="{Binding RunningGames}">
             <ListBox.ItemTemplate>
@@ -22,7 +26,14 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox x:Name="unknown_list" Grid.Row="1" ItemsSource="{Binding UnknownProcesses}">
-        </ListBox>
+        <ListBox x:Name="unknown_list" Grid.Row="1" ItemsSource="{Binding UnknownProcesses}" />
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock x:Name="refresh_time" Text="{Binding RefreshTime}" />
+            <Button x:Name="refresh_manual" Content="Refresh Now" Click="RefreshManual" />
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Button x:Name="add_game" Content="Add Game" />
+            <Button x:Name="remove_process" Content="Remove Process" />
+        </StackPanel>
     </Grid>
 </Window>

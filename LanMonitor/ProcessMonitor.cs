@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Windows;
 //using System.Collections.Specialized;
 
 namespace LanMonitor
@@ -71,9 +72,10 @@ namespace LanMonitor
 
 #pragma warning disable 4014
             // Auto update at regular intervals
+            RefreshTime = 30;
             var dueTime = TimeSpan.FromSeconds(10);
-            var interval = TimeSpan.FromSeconds(30);
-            RunPeriodicAsync(UpdateProcesses, dueTime, interval, CancellationToken.None);
+            var interval = TimeSpan.FromSeconds(RefreshTime);
+            RefreshTask = RunPeriodicAsync(UpdateProcesses, dueTime, interval, CancellationToken.None);
 #pragma warning restore 4014
         }
 
@@ -113,6 +115,24 @@ namespace LanMonitor
 
         public ObservableCollection<GameInfo> RunningGames { get; } = new ObservableCollection<GameInfo>();
         public ObservableCollection<string> UnknownProcesses { get; } = new ObservableCollection<string>();
+
+        static Task RefreshTask { get; set; }
+
+        private int refreshTime;
+        public int RefreshTime {
+            get
+            {
+                return refreshTime;
+            }
+            set
+            {
+                if (value != refreshTime)
+                {
+                    refreshTime = value;
+                    OnPropertyChanged("RefreshTime");
+                }
+            }
+        }
 
         private static async Task RunPeriodicAsync(Action onTick,
                                            TimeSpan dueTime,
