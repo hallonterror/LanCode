@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Windows;
 //using System.Collections.Specialized;
 
 namespace LanMonitor
@@ -36,12 +35,13 @@ namespace LanMonitor
     class ProcessMonitor : INotifyPropertyChanged
     {
         // Configuration variables
-        private Dictionary<String, GameInfo> monitoredProceses = new Dictionary<String, GameInfo>();
-        private HashSet<String> ignoredProcesses = new HashSet<String>();
+        public HashSet<string> IgnoredProcesses { get; set; }
+        public Dictionary<string, GameInfo> MonitoredProceses { get; set; }
 
         public ProcessMonitor()
         {
             // Load monitored games
+            MonitoredProceses = new Dictionary<string, GameInfo>();
             using (var gameReader = new System.IO.StreamReader("config/monitored_games.xml"))
             {
                 var doc = new System.Xml.XmlDocument();
@@ -56,17 +56,18 @@ namespace LanMonitor
                         else if (tag.Name.Equals("process")) { process = tag.InnerText; }
                     }
                     if (process != "" && web != "" && title != "")
-                        monitoredProceses[process] = new GameInfo(title, web, process);
+                        MonitoredProceses[process] = new GameInfo(title, web, process);
                 }
             }
 
             // Load ignored processes (not games)
+            IgnoredProcesses = new HashSet<string>();
             using (var ignores = new System.IO.StreamReader("config/ignored_processes.txt"))
             {
                 String line;
                 while ((line = ignores.ReadLine()) != null)
                 {
-                    ignoredProcesses.Add(line.Trim());
+                    IgnoredProcesses.Add(line.Trim());
                 }
             }
 
@@ -88,13 +89,20 @@ namespace LanMonitor
 
             foreach (Process proc in processes)
             {
-                if (monitoredProceses.ContainsKey(proc.ProcessName))
+                if (MonitoredProceses.ContainsKey(proc.ProcessName))
                 {
-                    var game = monitoredProceses[proc.ProcessName];
-                    game.Runtime = DateTime.Now - proc.StartTime;
+                    var game = MonitoredProceses[proc.ProcessName];
                     games[proc.ProcessName] = game;
+                    try
+                    {
+                        game.Runtime = DateTime.Now - proc.StartTime;
+                    }
+                    catch
+                    {
+                        game.Runtime = new TimeSpan(0);
+                    }
                 }
-                else if (!ignoredProcesses.Contains(proc.ProcessName))
+                else if (!IgnoredProcesses.Contains(proc.ProcessName))
                 {
                     unknowns.Add(proc.ProcessName);
                 }

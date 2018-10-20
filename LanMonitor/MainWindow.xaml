@@ -20,20 +20,20 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Label Content="{Binding Value.Title}" />
-                        <Label Content="{Binding Value.RuntimeString}" />
+                        <Label Content="{Binding Title}" />
+                        <Label Content="{Binding RuntimeString}" />
                     </StackPanel> 
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         <ListBox x:Name="unknown_list" Grid.Row="1" ItemsSource="{Binding UnknownProcesses}" />
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <TextBlock x:Name="refresh_time" Text="{Binding RefreshTime}" />
+            <TextBlock x:Name="refresh_time" HorizontalAlignment="Right" Text="{Binding RefreshTime}" />
             <Button x:Name="refresh_manual" Content="Refresh Now" Click="RefreshManual" />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Button x:Name="add_game" Content="Add Game" />
-            <Button x:Name="remove_process" Content="Remove Process" />
+            <Button x:Name="add_game" Content="Add Game" Click="add_game_Click" />
+            <Button x:Name="remove_process" Content="Ignore process" Click="remove_process_Click" />
         </StackPanel>
     </Grid>
 </Window>
