@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<games>
+  <game>
+    <title>Counter-Strike: Global Offensive</title>
+    <web>https://www.igdb.com/games/counter-strike-global-offensive</web>
+    <process>csgo</process>
+  </game>
+  <game>
+    <title>Battlefield 1</title>
+    <web>https://www.igdb.com/games/battlefield-1</web>
+    <process>bf1</process>
+  </game>
+  <game>
+    <title>Minecraft</title>
+    <web>https://www.igdb.com/games/minecraft</web>
+    <process>Minecraft</process>
+  </game>
+  <game>
+    <title>Overwatch</title>
+    <web>https://www.igdb.com/games/overwatch</web>
+    <process>Overwatch</process>
+  </game>
+</games>
