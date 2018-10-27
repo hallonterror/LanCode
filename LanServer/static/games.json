@@ -1,0 +1,25 @@
+{
+	"Voters" : 1,
+	"Games" : [{
+			"Title": "Left 4 Dead 2",
+			"Votes": 1,
+			"Cost": "8.19 EUR",
+			"Link": "https://store.steampowered.com/app/550/Left_4_Dead_2/"
+		}, {
+			"Title": "Battlefield 1",
+			"Votes": 1,
+			"Cost": "40.50 SEK/month or 399 SEK",
+			"Link": "https://www.origin.com/store/battlefield/battlefield-1"
+		}, {
+			"Title": "Counterstrike: Global Offensive",
+			"Votes": 1,
+			"Cost": "12.49 EUR or 18.76 EUR for 3.",
+			"Link": "https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/"
+		}, {
+			"Title": "OpenRA (Red Alert)",
+			"Votes": 1,
+			"Cost": "Free",
+			"Link": "https://www.openra.net/"
+		}
+	]
+}

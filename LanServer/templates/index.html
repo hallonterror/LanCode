@@ -1,0 +1,121 @@
+<html>
+
+<head>
+    <title>SICK Link&ouml;ping LAN Party 2018</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway" rel="stylesheet">
+    <script src="/static/jquery-3.3.1.min.js">
+    </script>
+    <script>
+        function sendGame(form) {
+            const title = form['add-game-title']
+            const link = form['add-game-link']
+
+            const object = {
+                'Title': title.value,
+                'Link': link.value
+            }
+            console.log(object)            
+            title.value = ""
+            link.value = ""
+        }
+        $(document).ready(function () {
+            $("#add-game-form").submit(function (e) {
+                e.preventDefault();
+            });
+            $.ajax({
+                url: "/static/games.json",
+                dataType: "json",
+                success: function (result) {
+                    const target = document.getElementById('game-list')
+
+                    result.Games.sort((a, b) => b.Votes - a.Votes);
+
+                    $.each(result.Games, function (index, game) {
+
+                        const entry = document.createElement('li')
+                        const link = document.createElement('a')
+                        link.href = game.Link
+                        const col1 = document.createElement('div')
+                        const col2 = document.createElement('div')
+                        col1.className = 'game-title'
+                        col2.className = 'game-interest'
+                        col1.textContent = game.Title
+                        col2.textContent = (100 * game.Votes / result.Voters).toFixed(2) + ' %'
+                        link.appendChild(col1)
+                        link.appendChild(col2)
+                        entry.appendChild(link)
+                        target.appendChild(entry)
+                    });
+
+                    // Insert total number of voters after list
+                    const totalVoters = document.createElement('div')
+                    totalVoters.textContent = "Number of voters so far is " + result.Voters
+                    totalVoters.className = 'game-total'
+                    target.parentNode.insertBefore(totalVoters, target.nextSibling);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    //do some error handling
+                    console.error(jqXHR);
+                    console.error(textStatus);
+                    console.error(errorThrown);
+                }
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="page">
+        <h1>What?</h1>
+        <p>A classic LAN party for everyone who misses the good old days, or for everyone wanting to experience a proper
+            local area network.</p>
+        <h1>When?</h1>
+        <p>A weekend from friday afternoon/evening until sunday. A date is yet to be determined.</p>
+        <a href="https://doodle.com/poll/9keeiu6usnqxxyu2">Please fill in the doodle.</a>
+        <h1>Where?</h1>
+        <p>The premises will be the SICK Link&ouml;ping offices and mainly conference room Glan.</p>
+        <p>There will be internet connectivety available on site courtesy of Bim. Still it's always advicable to load up
+            on games before arriving to minimize the time until playing starts.</p>
+        <h1>How?</h1>
+        <p>SICK provides the locale and connectivity.</p>
+        <p>Participants bring their computers with required cables, a power splitter with at least 3 sockets and a standard
+            ethernet cable. As you know there are a lot of this lying around the office, but we might not be able to collect
+            enough for everyone.</p>
+        <h1>What about refreshments?</h1>
+        <p>I will take upon me to purchase and transport some refreshments and snacks. These will be available for purchase
+            on site via Swish. Whishes for particular kinds of snacks or drinks are greatly appriciated.</p>
+        <p>Some have already voiced an interest in beer apart from the mandatory Jolt and other sodas.</p>
+        <h1>Last but not least...</h1>
+        <p>For a successful LAN party we need good and engaging games.</p>
+        <p>Those that whish to participate kindly provide input for a few games that you would like to play. If the games
+            are already on the list below send an email anyway. I will keep track of which games are the most popular.</p>
+        <p>Try to keep in mind price and hardware requirements. For the most fun almost everyone should be able to join and
+            perhaps the latest and greatest game is not the most fun.
+        </p>
+        <h2>Games</h2>
+        <ol id="game-list"></ol>
+        <h2>Suggest or Vote</h2>
+        <p>If you add a new game please provide a link to where the game can be bought. For pre-existing games the percentage
+            of that game will increase.</p>
+        <p>Cheating is completely possible, but only messes up the statistics on this page. Also note that handling is manual
+            for now so the update will not be immediate.</p>
+        <form id="add-game-form" onsubmit="sendGame(this)" method="get">
+            <label for="add-game-title">Title</label>
+            <input name="add-game-title" />
+
+            <label for="add-game-link">Link</label>
+            <input name="add-game-link" />
+
+            <input type="submit">
+        </form>
+        <div id="footer">
+            <p>Other questions:</p>
+            <a href="#" data-contact="ZGFuaWVsLnJ5ZHN0cm9tQHNpY2suc2U=" data-subj="TGFuIHBhZ2UgZmVlZGJhY2s=" onfocus="this.href = 'mailto:' + atob(this.dataset.contact) + '?subject=' + atob(this.dataset.subj || '')">work</a>
+            <a href="#" data-contact="ZGFuaWVsQHJ5ZHN0cm9tcy5jb20=" data-subj="TGFuIHBhZ2UgZmVlZGJhY2s=" onfocus="this.href = 'mailto:' + atob(this.dataset.contact) + '?subject=' + atob(this.dataset.subj || '')">home</a>
+        </div>
+    </div>
+</body>
+
+</html>

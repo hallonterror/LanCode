@@ -1,0 +1,90 @@
+/* 
+font-family: 'Raleway', sans-serif;
+font-family: 'Montserrat', sans-serif;
+*/
+
+h1, h2, h3 {
+    font-family: 'Raleway', sans-serif;
+}
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+a:link    { color: #FF851B }  /* unvisited links */
+a:visited { color: #FF4136 }  /* visited links   */
+a:hover   { color: #85144b }  /* user hovers     */
+a:active  { color: #F012BE }  /* active links    */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#page {
+    padding-top: 10px;
+    /* padding-left: 30px; */
+    /* border-left: 3px dashed #eee; */
+    width: 600px;
+    margin: auto 20% auto 10%;
+}
+
+#game-list li a {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+}
+.game-title {
+    flex: 80%;
+    display: inline-block;
+}
+.game-interest {
+    display: inline-block;
+}
+.game-total {
+    font-size: 90%;
+    text-align: center;
+}
+
+#add-game-form {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    border: 1px solid #FF4136;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+#add-game-form label {
+    flex: 25%;
+}
+#add-game-form input {
+    flex: 75%;
+}
+
+#footer {
+    margin-top: 30px;
+    padding: 0;
+    background: #eee;
+    font-size: 200%;
+    min-height: 100px;
+    text-align: center;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+#footer p {
+    flex: 100%;
+    margin: 0;
+    padding: 30px 10px;
+}
+#footer a {
+    padding: 30px 10px;
+    text-decoration: none;
+    flex: calc(50% - 20px);
+}
+#footer a:hover {
+    background: #ddd;
+    color: #fff;
+}
