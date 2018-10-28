@@ -30,6 +30,7 @@
         <StackPanel Grid.Row="0" Grid.Column="1">
             <TextBlock x:Name="refresh_time" HorizontalAlignment="Right" Text="{Binding RefreshTime}" />
             <Button x:Name="refresh_manual" Content="Refresh Now" Click="RefreshManual" />
+            <Button x:Name="get_status" Content="Get Status" Click="GetStatus" />
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <Button x:Name="add_game" Content="Add Game" Click="add_game_Click" />

@@ -45,6 +45,29 @@ namespace LanMonitor
             procMon.UpdateProcesses();
         }
 
+        private string runningGamesUpdate()
+        {
+            ServerCommunication comm = new ServerCommunication();
+
+            Task<string> getGameCount = comm.Get(@"/games/running/count");
+            //return int.Parse(getGameCount.Result);
+
+            Dictionary<string, string> payload = new Dictionary<string, string>();
+            payload.Add("GameId", "csgo");
+            payload.Add("UserId", "uid");
+            payload.Add("RunTime", "1000");
+            Task<string> post = comm.Post(@"/users/test_user", payload);
+            string postStr = post.Result;
+
+            return getGameCount.Result;
+        }
+
+        private void GetStatus(object sender, RoutedEventArgs e)
+        {
+            var gameCount = runningGamesUpdate();
+            Console.WriteLine(gameCount);
+        }
+
         private void add_game_Click(object sender, RoutedEventArgs e)
         {
             // Retrieve the selected list item
