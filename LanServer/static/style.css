@@ -58,6 +58,9 @@ body {
 
     z-index: 1;
 }
+.game-tooltip img {
+    width: 100%;
+}
 #game-list li:hover .game-tooltip {
     display: block;
     visibility: visible;

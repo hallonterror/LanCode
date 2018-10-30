@@ -48,10 +48,13 @@
                         
                         const desc = document.createElement('div')
                         const price = document.createElement('div')
+                        const img = document.createElement('img')
                         desc.textContent =  game.Description;
                         price.textContent = 'Price: ' + game.Cost
+                        img.src = game.ImgUrl
                         tooltip.appendChild(desc)
                         tooltip.appendChild(price)
+                        tooltip.appendChild(img)
                         
                         link.appendChild(col1)
                         link.appendChild(col2)

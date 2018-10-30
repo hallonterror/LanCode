@@ -1,1 +1,40 @@
-{"Voters": 1, "Games": [{"Title": "Left 4 Dead 2", "Votes": 1, "Cost": "8.19 EUR", "SteamID": 550, "Link": "https://store.steampowered.com/app/550", "ImgUrl": "https://steamcdn-a.akamaihd.net/steam/apps/550/header.jpg?t=1540300687", "Description": "Set in the zombie apocalypse, Left 4 Dead 2 (L4D2) is the highly anticipated sequel to the award-winning Left 4 Dead, the #1 co-op game of 2008. This co-operative action horror FPS takes you and your friends through the cities, swamps and cemeteries of the Deep South, from Savannah to New Orleans across five expansive campaigns.", "IsFree": false}, {"Title": "Battlefield 1", "Votes": 1, "Cost": "40.50 SEK/month or 399 SEK", "Link": "https://www.origin.com/store/battlefield/battlefield-1"}, {"Title": "Counter-Strike: Global Offensive", "Votes": 1, "Cost": "Free", "SteamID": 730, "Link": "https://store.steampowered.com/app/730", "ImgUrl": "https://steamcdn-a.akamaihd.net/steam/apps/730/header.jpg?t=1540300672", "Description": "Counter-Strike: Global Offensive (CS: GO) will expand upon the team-based action gameplay that it pioneered when it was launched 14 years ago. CS: GO features new maps, characters, and weapons and delivers updated versions of the classic CS content (de_dust2, etc.).", "IsFree": true}, {"Title": "OpenRA (Red Alert)", "Votes": 1, "Cost": "Free", "Link": "https://www.openra.net/"}]}
+{
+	"Voters": 1,
+	"Games": [
+		{
+			"Title": "Left 4 Dead 2",
+			"Votes": 1,
+			"Cost": "8.19 EUR",
+			"SteamID": 550,
+			"Link": "https://store.steampowered.com/app/550",
+			"ImgUrl": "https://steamcdn-a.akamaihd.net/steam/apps/550/header.jpg?t=1540300687",
+			"Description": "Set in the zombie apocalypse, Left 4 Dead 2 (L4D2) is the highly anticipated sequel to the award-winning Left 4 Dead, the #1 co-op game of 2008. This co-operative action horror FPS takes you and your friends through the cities, swamps and cemeteries of the Deep South, from Savannah to New Orleans across five expansive campaigns.",
+			"IsFree": false
+		},
+		{
+			"Title": "Battlefield 1",
+			"Votes": 1,
+			"Cost": "40.50 SEK/month or 399 SEK",
+			"Description": "Battlefield™ 1 takes you back to The Great War, WW1, where new technology and worldwide conflict changed the face of warfare forever.",
+			"Link": "https://www.origin.com/store/battlefield/battlefield-1"
+		},
+		{
+			"Title": "Counter-Strike: Global Offensive",
+			"Votes": 1,
+			"Cost": "Free",
+			"SteamID": 730,
+			"Link": "https://store.steampowered.com/app/730",
+			"ImgUrl": "https://steamcdn-a.akamaihd.net/steam/apps/730/header.jpg?t=1540300672",
+			"Description": "Counter-Strike: Global Offensive (CS: GO) will expand upon the team-based action gameplay that it pioneered when it was launched 14 years ago. CS: GO features new maps, characters, and weapons and delivers updated versions of the classic CS content (de_dust2, etc.).",
+			"IsFree": true
+		},
+		{
+			"Title": "OpenRA (Red Alert)",
+			"Votes": 1,
+			"Cost": "Free",
+			"Link": "https://www.openra.net/",
+			"ImgUrl": "https://www.openra.net/images/screenshots/d2k-battle.png",
+			"Description": "Classic strategy games, rebuilt for the modern era. Open Source. Free. For all modern operating systems."
+		}
+	]
+}
