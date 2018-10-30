@@ -24,7 +24,7 @@
                 e.preventDefault();
             });
             $.ajax({
-                url: "/static/games.json",
+                url: "/games/all",
                 dataType: "json",
                 success: function (result) {
                     const target = document.getElementById('game-list')
@@ -38,12 +38,24 @@
                         link.href = game.Link
                         const col1 = document.createElement('div')
                         const col2 = document.createElement('div')
+                        const tooltip = document.createElement('div')
                         col1.className = 'game-title'
                         col2.className = 'game-interest'
+                        tooltip.className = 'game-tooltip'
+
                         col1.textContent = game.Title
                         col2.textContent = (100 * game.Votes / result.Voters).toFixed(2) + ' %'
+                        
+                        const desc = document.createElement('div')
+                        const price = document.createElement('div')
+                        desc.textContent =  game.Description;
+                        price.textContent = 'Price: ' + game.Cost
+                        tooltip.appendChild(desc)
+                        tooltip.appendChild(price)
+                        
                         link.appendChild(col1)
                         link.appendChild(col2)
+                        link.appendChild(tooltip)
                         entry.appendChild(link)
                         target.appendChild(entry)
                     });

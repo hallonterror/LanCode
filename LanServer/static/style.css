@@ -45,6 +45,23 @@ body {
     font-size: 90%;
     text-align: center;
 }
+.game-tooltip {
+    background: #ddd;
+    color: #000;
+    padding: 10px;
+    max-width: 200px;
+
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    margin-left: 590px;
+
+    z-index: 1;
+}
+#game-list li:hover .game-tooltip {
+    display: block;
+    visibility: visible;
+}
 
 #add-game-form {
     width: 50%;

@@ -1,5 +1,6 @@
 import json
 from flask import Flask, render_template, request
+import requests
 app = Flask(__name__)
 
 active_users = []
@@ -28,6 +29,66 @@ def getNumberOfRunningGames():
   for user in active_users:
     gameCount += len(user['games'])
   return str(gameCount)
+
+def getGameInfo(steamid):
+  addr = 'https://store.steampowered.com/api/appdetails?appids=' + str(steamid) + '&l=en'
+  res = requests.get(addr)
+  _, content = res.json().popitem()
+  if content['success']:
+    data = content['data']
+    d = {
+      'Title': data['name'],
+      'Link': "https://store.steampowered.com/app/" + str(steamid),
+      'ImgUrl': data['header_image'],
+      'Description': data['short_description'],
+      'IsFree': data['is_free']
+    }
+    return d
+  else:
+    d = {
+      'Title': 'Uknown',
+      'Link': '#',
+      'ImgUrl': '#',
+      'Description': 'No description',
+      'IsFree': False
+    }
+    return d
+@app.route('/games/<int:steamid>/info')
+def getGameInfoJson(steamid):
+  return json.dumps(getGameInfo(steamid))
+
+@app.route('/games/<int:steamid>/image')
+def getGameImage(steamid):
+  addr = 'https://store.steampowered.com/api/appdetails?appids=' + str(steamid) + '&l=en'
+  res = requests.get(addr)
+  _, content = res.json().popitem()
+  if content['success']:
+    data = content['data']
+    img_url = data['header_image']
+    return '<img src="' + img_url + '" />'
+  
+@app.route('/games/all')
+def getGames():
+  with open('LanServer/static/games.json', 'rb') as f:
+    data = json.load(f)
+  return json.dumps(data)
+
+@app.route('/games/all/update')
+def updateGames():
+  with open('LanServer/static/games.json', 'r') as f:
+    data = json.load(f)
+  
+  for game in data['Games']:
+    if 'SteamID' in game:
+      info = getGameInfo(game['SteamID'])
+      game.update(info)
+      if info['IsFree'] == True:
+        game['Cost'] = 'Free'
+  
+  with open('LanServer/static/games.json', 'w') as f:
+   json.dump(data, f)
+
+  return 'Games updated'
 
 @app.route('/users/<string:user_id>', methods = ['GET', 'POST'])
 def user(user_id):
